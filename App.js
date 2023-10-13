@@ -8,9 +8,11 @@ export default function App() {
   const [sharedMimeType, setSharedMimeType] = useState(null);
 
   const handleShare = useCallback((item) => {
+    console.log({ item: JSON.stringify(item) });
     if (!item) {
       return;
     }
+
     setSharedData(item?.data?.[0]?.data ?? "");
     setSharedMimeType(item?.data?.[0]?.mimeType ?? "");
   }, []);
@@ -27,25 +29,10 @@ export default function App() {
     };
   }, []);
 
-  console.log({ sharedData, sharedMimeType });
-
-  if (!sharedMimeType && !sharedData) {
-    // The user hasn't shared anything yet
-    return null;
-  }
-
-  if (sharedMimeType === "text/plain") {
-    // The user shared text
-    return (
-      <View style={styles.container}>
-        <Text>Shared text: {sharedData}</Text>
-      </View>
-    );
-  }
-
   // The user shared a file in general
   return (
     <View style={styles.container}>
+      <StatusBar style="auto" />
       <Text>Shared mime type: {sharedMimeType}</Text>
       <Text>Shared file location: {sharedData}</Text>
     </View>
